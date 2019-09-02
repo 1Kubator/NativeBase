@@ -17,8 +17,7 @@ Label.propTypes = {
     PropTypes.object,
     PropTypes.number,
     PropTypes.array
-  ]),
-  floatBack: PropTypes.number,
+  ])
 };
 
 const StyledLabel = connectStyle('NativeBase.Label', {}, mapPropsToStyleNames)(

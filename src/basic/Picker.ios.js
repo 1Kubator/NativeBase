@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import createReactClass from 'create-react-class';
 import { FlatList, Modal, Picker, View, ViewPropTypes } from 'react-native';
 import { connectStyle } from 'native-base-shoutem-theme';
-import { find, flatten, get, isArray } from 'lodash';
+import _ from 'lodash';
 
 import computeProps from '../utils/computeProps';
 import mapPropsToStyleNames from '../utils/mapPropsToStyleNames';
@@ -22,25 +22,18 @@ import { Body } from './Body';
 class PickerNB extends Component {
   static getDerivedStateFromProps(nextProps, prevState) {
     let nextDS;
-
     if (nextProps.children && !Array.isArray(nextProps.children)) {
       nextDS = [].concat(nextProps.children);
       // eslint-disable-next-line prefer-spread
     } else nextDS = [].concat.apply([], nextProps.children);
 
-    let item;
-
-    if (isArray(nextProps.children)) {
-      item = find(
-        flatten(nextProps.children),
-        child => child.props.value === nextProps.selectedValue
-      );
-    } else {
-      item = nextProps.children;
-    }
+    const item = _.find(
+      nextProps.children,
+      child => child.props.value === nextProps.selectedValue
+    );
 
     const currentLabel = prevState.currentLabel;
-    const nextLabel = get(item, 'props.label');
+    const nextLabel = _.get(item, 'props.label');
     const currentDS = prevState.dataSource;
 
     if (currentLabel !== nextLabel) {
@@ -76,15 +69,15 @@ class PickerNB extends Component {
 
   getLabel(props) {
     const children = this.getChildren(props.children);
-    const item = find(
+    const item = _.find(
       children,
       child => child.props.value === props.selectedValue
     );
-    return get(item, 'props.label');
+    return _.get(item, 'props.label');
   }
 
   getSelectedItem() {
-    return find(
+    return _.find(
       this.props.children,
       child => child.props.value === this.props.selectedValue
     );

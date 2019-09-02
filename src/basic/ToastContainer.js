@@ -1,7 +1,7 @@
 /* eslint-disable class-methods-use-this */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Keyboard, Platform, Animated, ViewPropTypes } from 'react-native';
+import { Platform, Animated, ViewPropTypes } from 'react-native';
 import { connectStyle } from 'native-base-shoutem-theme';
 
 import mapPropsToStyleNames from '../utils/mapPropsToStyleNames';
@@ -29,23 +29,11 @@ class ToastContainer extends Component {
   }
   constructor(props) {
     super(props);
-
     this.state = {
-      fadeAnim: new Animated.Value(0),
-      keyboardHeight: 0,
-      isKeyboardVisible: false,
-      modalVisible: false
+      modalVisible: false,
+      fadeAnim: new Animated.Value(0)
     };
-
-    this.keyboardDidHide = this.keyboardDidHide.bind(this);
-    this.keyboardDidShow = this.keyboardDidShow.bind(this);
   }
-
-  componentDidMount() {
-    Keyboard.addListener('keyboardDidShow', this.keyboardDidShow);
-    Keyboard.addListener('keyboardDidHide', this.keyboardDidHide);
-  }
-
   getToastStyle() {
     return {
       position: POSITION.ABSOLUTE,
@@ -58,17 +46,12 @@ class ToastContainer extends Component {
         this.state.position === POSITION.BOTTOM ? this.getTop() : undefined
     };
   }
-
   getTop() {
     if (Platform.OS === PLATFORM.IOS) {
-      if (this.state.isKeyboardVisible) {
-        return this.state.keyboardHeight;
-      }
       return 30;
     }
     return 0;
   }
-
   getButtonText(buttonText) {
     if (buttonText) {
       if (buttonText.trim().length === 0) {
@@ -81,21 +64,6 @@ class ToastContainer extends Component {
   getModalState() {
     return this.state.modalVisible;
   }
-
-  keyboardDidHide() {
-    this.setState({
-      keyboardHeight: 0,
-      isKeyboardVisible: false
-    });
-  }
-
-  keyboardDidShow(e) {
-    this.setState({
-      keyboardHeight: e.endCoordinates.height,
-      isKeyboardVisible: true
-    });
-  }
-
   showToast({ config }) {
     this.setState({
       modalVisible: true,

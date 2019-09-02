@@ -91,8 +91,6 @@ declare module "native-base" {
              * Takes a data entry from the data source and should return a renderable component to be rendered as the row.
              */
 			renderItem?: Function;
-			renderBottom?: Function;
-			renderEmpty?: Function;
 		}
 		/**
          * see Widget Header.js
@@ -291,10 +289,6 @@ declare module "native-base" {
              * Array of data chunks to render iteratively.
              */
 			dataArray?: Array<any>;
-			renderItem?: (
-				rowData: any,
-				rowID: string | number,
-			) => React.ReactElement<any>;
 			renderRow?: (
 				rowData: any,
 				sectionID: string | number,
@@ -789,7 +783,7 @@ declare module "native-base" {
 			tabContainerStyle?: RnViewStyleProp | Array<RnViewStyleProp>;
 			style?: RnViewStyleProp | Array<RnViewStyleProp>;
 			contentProps?: ReactNative.ScrollViewProperties;
-			scrollWithoutAnimation?: boolean;
+			scrollWithoutAnimation: boolean;
 			prerenderingSiblingsNumber?: number;
 		}
 
